@@ -5,8 +5,8 @@
 <link href="../favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 <body>
-<a href="index-all.html" style="position:absolute;top:200px;left:800px;opacity:0.2;font-size:40px;">ALL TIME</a>
-<a href="index-week.html" style="position:absolute;top:200px;left:650px;opacity:0.2;font-size:40px;">WEEK</a>
+<!--a href="index-all.html" style="position:absolute;top:200px;left:800px;opacity:0.2;font-size:40px;">ALL TIME</a>
+<a href="index-week.html" style="position:absolute;top:200px;left:650px;opacity:0.2;font-size:40px;">WEEK</a-->
 <a id="title" style="position:absolute;top:200px;left:500px;opacity:0.2;font-size:40px;"><u>HOUR</u></a>
 <script src="http://d3js.org/d3.v3.js"></script>
 <script src="http://zeptojs.com/zepto.min.js"></script>
@@ -62,7 +62,7 @@ $.ajaxSettings.cache = false;
 
 
 function updateGraph(){
-	$.get("../ping-log/ajax/ping/hour", 
+	$.get("data/hour.json", 
 		function(data) {
 			console.log(data);
 			//var data = JSON.parse(data);
