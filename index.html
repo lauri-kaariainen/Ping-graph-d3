@@ -51,7 +51,7 @@ $.ajaxSettings.cache = false;
 
 	var line = d3.svg.line()
 	    .x(function(d) { return x(d.date); })
-	    .y(function(d) { return y(d.close); });
+	    .y(function(d) { console.log(d.close);if(d.close < 0) return y(500); else return y(d.close); });
 
 	var svg = d3.select("body").append("svg")
 	    .attr("width", width + margin.left + margin.right)
@@ -119,7 +119,7 @@ function updateGraph(){
 	});
 }
 updateGraph();
-setInterval(updateGraph,1000*60*2);
+setInterval(updateGraph,1000*60*1);
 </script>
 <script>
 
