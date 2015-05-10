@@ -70,7 +70,7 @@ function updateGraph(){
 		    //console.log(data);
 		    data.reverse();
 		    data.forEach(function(d) {
-						        d.date = new Date(d.timestamp);
+						        d.date = new Date(d.t);
 						        d.close = d.ping;
 							}
 			);
