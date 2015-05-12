@@ -5,8 +5,8 @@
 <link href="../favicon.ico" rel="icon" type="image/x-icon" />
 </head>
 <body>
-<!--a href="index-all.html" style="position:absolute;top:200px;left:800px;opacity:0.2;font-size:40px;">ALL TIME</a>
-<a href="index-week.html" style="position:absolute;top:200px;left:650px;opacity:0.2;font-size:40px;">WEEK</a-->
+
+
 <a id="title" style="position:absolute;top:200px;left:500px;opacity:0.2;font-size:40px;"><u>HOUR</u></a>
 <script src="http://d3js.org/d3.v3.js"></script>
 <script src="http://zeptojs.com/zepto.min.js"></script>
@@ -47,11 +47,41 @@ $.ajaxSettings.cache = false;
 	var area = d3.svg.area()
     .x(function(d) { return x(d.date); })
     .y0(height)
-    .y1(function(d) { return y(d.close); });
+    .y1(function(d) {	 
+						return y(d.close); 
+    				});
 
 	var line = d3.svg.line()
 	    .x(function(d) { return x(d.date); })
-	    .y(function(d) { return y(d.close); });
+	    .y(function(d) { 
+					 	return y(d.close); 
+    					});
+
+
+	var packetLossArea = d3.svg.area()
+    .x(function(d) { return x(d.date); })
+    .y0(height)
+    .y1(function(d) {
+    					if(d.close < 0)	 
+							return y(500);
+						else
+							return y(0)
+
+    				});
+
+	var packetLossLine = d3.svg.line()
+	    .x(function(d) { return x(d.date); })
+	    .y(function(d) { 
+    					if(d.close < 0)	 
+							return y(500);
+						else
+							return y(0)
+    					});
+
+
+
+
+
 
 	var svg = d3.select("body").append("svg")
 	    .attr("width", width + margin.left + margin.right)
@@ -62,6 +92,7 @@ $.ajaxSettings.cache = false;
 
 
 function updateGraph(){
+
 	$.get("data/hour.json", 
 		function(data) {
 			console.log(data);
@@ -70,9 +101,9 @@ function updateGraph(){
 		    //console.log(data);
 		    data.reverse();
 		    data.forEach(function(d) {
-						        d.date = new Date(d.timestamp);
+						        d.date = new Date(d.t);
 						        d.close = d.ping;
-							}
+						}
 			);
 			
 
@@ -106,6 +137,20 @@ function updateGraph(){
 		      .style("text-anchor", "end")
 		      .text("Ping (ms)");
 
+
+		  svg.append("path")
+        	.datum(data)
+        	.attr("class", "area")
+        	.style("fill","red")
+        	.attr("d", packetLossArea);
+
+
+		  svg.append("path")
+		      .datum(data)
+		      .attr("class", "line")
+		      .style("stroke","red")
+		      .attr("d", packetLossLine);
+
 		  svg.append("path")
         	.datum(data)
         	.attr("class", "area")
@@ -116,10 +161,11 @@ function updateGraph(){
 		      .datum(data)
 		      .attr("class", "line")
 		      .attr("d", line);
+
 	});
 }
 updateGraph();
-setInterval(updateGraph,1000*60*2);
+setInterval(updateGraph,1000*60*1);
 </script>
 <script>
 
